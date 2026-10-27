@@ -61,21 +61,34 @@ if [ ${#FILES[@]} -eq 0 ]; then
     exit 1
 fi
 
-write_header() {
+write_header() 
+{
     local fname="$1"
+    local who="$LOGIN <$EMAIL>"
+    local login_pad="$LOGIN"
+
+    if [ ${#who} -gt 42 ]; then
+        who="${who:0:42}"
+    fi
+    if [ ${#login_pad} -gt 18 ]; then
+        login_pad="${login_pad:0:18}"
+    fi
+    if [ ${#fname} -gt 51 ]; then
+        fname="${fname:0:51}"
+    fi
+
     printf '/* ************************************************************************** */\n'
     printf '/*                                                                            */\n'
     printf '/*                                                        :::      ::::::::   */\n'
-    printf '/*   %-50s :+:      :+:    :+:   */\n' "$fname"
+    printf '/*   %-51s :+:      :+:    :+:   */\n' "$fname"
     printf '/*                                                    +:+ +:+         +:+     */\n'
-    printf '/*   By: %-42s +#+  +:+       +#+        */\n' "$LOGIN <$EMAIL>"
+    printf '/*   By: %-42s +#+  +:+       +#+        */\n' "$who"
     printf '/*                                                +#+#+#+#+#+   +#+           */\n'
-    printf '/*   Created: %s by %-15s #+#    #+#             */\n' "$DATE" "$LOGIN"
-    printf '/*   Updated: %s by %-15s ###   ########.fr       */\n' "$DATE" "$LOGIN"
+    printf '/*   Created: %s by %-18s #+#    #+#             */\n' "$DATE" "$login_pad"
+    printf '/*   Updated: %s by %-18s ###   ########.fr       */\n' "$DATE" "$login_pad"
     printf '/*                                                                            */\n'
     printf '/* ************************************************************************** */\n'
 }
-
 HEADER_RE='^/\* \*{74} \*/$'
 
 changed=0
